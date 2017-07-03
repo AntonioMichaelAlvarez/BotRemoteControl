@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BotRemoteControl Video test</title>
+  </head>
+
+  <body>
+  <img id="videocontrol" alt="videostream" style="min-width: 100px; min-height: 100px;">
+    <script src="aw.js" type="text/javascript"></script>
+    <script type="text/javascript">
+          var ws_url = "ws://" + document.location.href.split('/')[2] + "/ws";
+          aw.init(ws_url);
+          aw.onupdate(function(evt){
+              // console.log(evt.data.size / 3); // Prints amount of pixels
+              var ta = document.querySelector("#videocontrol");
+              // Convert binary string to JPEG data
+              var blob = new Blob([evt.data], {type: "image/jpeg"});
+              // Set image elemnt's source to Blob data
+              ta.src = URL.createObjectURL(evt.data);
+          });
+          aw.onerror(function(evt){
+            // Callback for WebSocket error event
+          });
+          aw.onclose(function(evt){
+            // Callback for WebSocket close event
+          });
+      </script>
+</body></html>
